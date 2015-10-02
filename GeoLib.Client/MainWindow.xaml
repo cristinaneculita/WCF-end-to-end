@@ -1,0 +1,29 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:Contracts="clr-namespace:GeoLib.Contracts;assembly=GeoLib.Contracts" x:Class="GeoLib.Client.MainWindow"
+        Title="MainWindow" Height="508.03" Width="719.091">
+    <Grid Margin="0,0,-8,-4" Height="481" VerticalAlignment="Top">
+        <Label Content="Zip Code:" HorizontalAlignment="Left" Margin="78,48,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="txtZipCode" HorizontalAlignment="Left" Height="26" Margin="159,48,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="104"/>
+        <Button x:Name="btnGetInfo" Content="Get Info" HorizontalAlignment="Left" Height="33" Margin="109,96,0,0" VerticalAlignment="Top" Width="127" Click="btnGetInfo_Click"/>
+        <Label x:Name="lblCity" Content="" HorizontalAlignment="Left" Margin="78,155,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.782,1.138" Width="185"/>
+        <Label x:Name="lblState" Content="" HorizontalAlignment="Left" Margin="78,203,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.782,1.138" Width="185"/>
+        <Label Content="State:" HorizontalAlignment="Left" Margin="420,48,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="txtState" HorizontalAlignment="Left" Height="26" Margin="510,48,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="115"/>
+        <Button x:Name="btnGetZipCodes" Content="Get Zip Codes" HorizontalAlignment="Left" Height="33" Margin="510,96,0,0" VerticalAlignment="Top" Width="115" Click="btnGetZipCodes_Click" />
+        <ListBox x:Name="lstZips" HorizontalAlignment="Left" Height="195" Margin="420,178,0,0" VerticalAlignment="Top" Width="257">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding ZipCode}"/>
+                        <TextBlock Text=" - "/>
+                        <TextBlock Text="{Binding City}"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <Button x:Name="btn_MakeCall" Content="Make Call" HorizontalAlignment="Left" Height="35" Margin="59,290,0,0" VerticalAlignment="Top" Width="168" Click="btn_MakeCall_Click"/>
+        <TextBox x:Name="txtMessage" HorizontalAlignment="Left" Height="26" Margin="59,347,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="306"/>
+    </Grid>
+</Window>
