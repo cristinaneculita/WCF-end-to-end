@@ -16,6 +16,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using GeoLib.Services;
+using GeoLib.WindowsHost.Contracts;
 using GeoLib.WindowsHost.Services;
 
 namespace GeoLib.WindowsHost
@@ -38,10 +39,14 @@ namespace GeoLib.WindowsHost
 
             this.Title = "UI Running on Tread " + Thread.CurrentThread.ManagedThreadId + " | Process " +
                          Process.GetCurrentProcess().Id.ToString();
+
+            _SyncContext = SynchronizationContext.Current;
         }
 
         private ServiceHost _HostGeoManager = null;
         private ServiceHost _HostMessageManager = null;
+
+        SynchronizationContext _SyncContext = null;
 
         private void btnStart_Click(object sender, RoutedEventArgs e)
         {
@@ -68,10 +73,28 @@ namespace GeoLib.WindowsHost
         public void ShowMessage(string message)
         {
             int threadId = Thread.CurrentThread.ManagedThreadId;
+            SendOrPostCallback callback = new SendOrPostCallback(arg =>
+            {
+                lblMessage.Content = message + Environment.NewLine + "Thread: " + threadId + " | Process " +
+                                     Process.GetCurrentProcess().Id.ToString();
+            });
+            _SyncContext.Send(callback, null);
+        }
 
-            lblMessage.Content = message + Environment.NewLine + "Thread: " + threadId + " | Process " +
-                         Process.GetCurrentProcess().Id.ToString();
+        private void inProcSvc_Click(object sender, RoutedEventArgs e)
+        {
+            Thread thread = new Thread(() =>
+            {
+                ChannelFactory<IMessageService> factory = new ChannelFactory<IMessageService>("");
 
+                IMessageService proxy = factory.CreateChannel();
+
+                proxy.ShowMessage(DateTime.Now.ToLongTimeString() + " from in-process call.");
+
+                factory.Close();
+            });
+            thread.IsBackground = true;
+            thread.Start();
         }
     }
 }

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.ServiceModel;
+using System.ServiceModel.Channels;
 using GeoLib.Contracts;
 using GeoLib.Data;
 using GeoLib.Services;
@@ -27,6 +29,28 @@ namespace GeoLib.Tests
             IGeoService geoService = new GeoManager(mockZipRepository.Object);
 
             ZipCodeData zipCodeData = geoService.GetZipInfo("07033");
+
+            Assert.IsTrue(zipCodeData.City.ToUpper() == "LINCOLN PARK");
+            Assert.IsTrue(zipCodeData.State == "NJ");
+        }
+        [TestMethod]
+        public void integration_test_zip_code_retrieval()
+        {
+            string address = "net.pipe://localhost/GeoService";
+            Binding binding = new NetNamedPipeBinding();
+
+            ServiceHost host = new ServiceHost(typeof (GeoManager));
+
+            host.AddServiceEndpoint(typeof (IGeoService), binding, address);
+
+            host.Open();
+
+            ChannelFactory<IGeoService> factory = new ChannelFactory<IGeoService>(binding, new EndpointAddress(address));
+            IGeoService proxy = factory.CreateChannel();
+
+            ZipCodeData zipCodeData = proxy.GetZipInfo("07035");
+
+            factory.Close();
 
             Assert.IsTrue(zipCodeData.City.ToUpper() == "LINCOLN PARK");
             Assert.IsTrue(zipCodeData.State == "NJ");
