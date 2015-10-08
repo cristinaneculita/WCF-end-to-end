@@ -34,22 +34,32 @@ namespace GeoLib.Client
         {
             InitializeComponent();
             _Proxy = new GeoClient("tcpEp");
+            _Proxy2 = new StatefulGeoClient();
 
         }
 
         GeoClient _Proxy = null;
+        StatefulGeoClient _Proxy2 = null;
         private void btnGetInfo_Click(object sender, RoutedEventArgs e)
         {
             if (txtZipCode.Text != "")
             {
-                ServiceReference1.GeoServiceClient proxy = new ServiceReference1.GeoServiceClient();
-                var data = proxy.GetZipInfo(txtZipCode.Text);
+                //GeoClient proxy = new GeoClient("tcpEp");
+
+                ZipCodeData data = _Proxy.GetZipInfo(txtZipCode.Text);
+
                 if (data != null)
                 {
                     lblCity.Content = data.City;
                     lblState.Content = data.State;
                 }
-                proxy.Close();
+                else
+                {
+                    lblCity.Content = "N/A";
+                    lblState.Content = "N/A";
+                }
+
+               // proxy.Close();
             }
         }
 
@@ -65,7 +75,7 @@ namespace GeoLib.Client
                     lstZips.ItemsSource = data;
                 }
 
-               // proxy.Close();
+              ////  proxy.Close();
 
             }
 
@@ -83,8 +93,44 @@ namespace GeoLib.Client
 
         }
 
-       
+        private void btnPush_Click(object sender, RoutedEventArgs e)
+        {
+            if (txtZipCode2.Text != "")
+            {
+                _Proxy2.PushZip(txtZipCode2.Text);
+            }
+        }
+        private void btnGetInfo2_Click(object sender, RoutedEventArgs e)
+        {
+           
+                //GeoClient proxy = new GeoClient("tcpEp");
 
+                ZipCodeData data = _Proxy2.GetZipInfo();
+
+                if (data != null)
+                {
+                    lblCity2.Content = data.City;
+                    lblState2.Content = data.State;
+                }
+                else
+                {
+                    lblCity2.Content = "N/A";
+                    lblState.Content = "N/A";
+                }
+
+                // proxy.Close();
+
+        }
+
+        private void btnInRange_Click(object sender, RoutedEventArgs e)
+        {
+            if (txtRange.Text != "")
+            {
+                var data = _Proxy2.GetZips(int.Parse(txtRange.Text));
+                if (data != null)
+                    lstZips2.ItemsSource = data;
+            }
+        }
     }
 
 }

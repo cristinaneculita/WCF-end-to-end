@@ -2,17 +2,17 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:Contracts="clr-namespace:GeoLib.Contracts;assembly=GeoLib.Contracts" x:Class="GeoLib.Client.MainWindow"
-        Title="MainWindow" Height="508.03" Width="719.091">
-    <Grid Margin="0,0,-8,-4" Height="481" VerticalAlignment="Top">
+        Title="MainWindow" Height="508.03" Width="1092.091">
+    <Grid Margin="0,0,0,-4" Height="481" VerticalAlignment="Top" HorizontalAlignment="Left" Width="1082">
         <Label Content="Zip Code:" HorizontalAlignment="Left" Margin="78,48,0,0" VerticalAlignment="Top"/>
         <TextBox x:Name="txtZipCode" HorizontalAlignment="Left" Height="26" Margin="159,48,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="104"/>
         <Button x:Name="btnGetInfo" Content="Get Info" HorizontalAlignment="Left" Height="33" Margin="109,96,0,0" VerticalAlignment="Top" Width="127" Click="btnGetInfo_Click"/>
         <Label x:Name="lblCity" Content="" HorizontalAlignment="Left" Margin="78,155,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.782,1.138" Width="185"/>
         <Label x:Name="lblState" Content="" HorizontalAlignment="Left" Margin="78,203,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.782,1.138" Width="185"/>
         <Label Content="State:" HorizontalAlignment="Left" Margin="420,48,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="txtState" HorizontalAlignment="Left" Height="26" Margin="510,48,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="115"/>
-        <Button x:Name="btnGetZipCodes" Content="Get Zip Codes" HorizontalAlignment="Left" Height="33" Margin="510,96,0,0" VerticalAlignment="Top" Width="115" Click="btnGetZipCodes_Click" />
-        <ListBox x:Name="lstZips" HorizontalAlignment="Left" Height="195" Margin="420,178,0,0" VerticalAlignment="Top" Width="257">
+        <TextBox x:Name="txtState" HorizontalAlignment="Left" Height="26" Margin="490,48,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="86"/>
+        <Button x:Name="btnGetZipCodes" Content="Get Zip Codes" HorizontalAlignment="Left" Height="33" Margin="490,96,0,0" VerticalAlignment="Top" Width="86" Click="btnGetZipCodes_Click" />
+        <ListBox x:Name="lstZips" HorizontalAlignment="Left" Height="195" Margin="420,178,0,0" VerticalAlignment="Top" Width="177">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
@@ -25,5 +25,30 @@
         </ListBox>
         <Button x:Name="btn_MakeCall" Content="Make Call" HorizontalAlignment="Left" Height="35" Margin="59,290,0,0" VerticalAlignment="Top" Width="168" Click="btn_MakeCall_Click"/>
         <TextBox x:Name="txtMessage" HorizontalAlignment="Left" Height="26" Margin="59,347,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="306"/>
+        <Label Content="Zip Code:" HorizontalAlignment="Left" Margin="642,48,-5,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="txtZipCode2" HorizontalAlignment="Left" Height="26" Margin="716,48,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="104"/>
+        <Button x:Name="btnGetInfo_Copy" Content="Get Info" HorizontalAlignment="Left" Height="33" Margin="109,96,0,0" VerticalAlignment="Top" Width="127" Click="btnGetInfo_Click"/>
+        <Label x:Name="lblCity_Copy" Content="" HorizontalAlignment="Left" Margin="78,155,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.782,1.138" Width="185"/>
+        <Label x:Name="lblState_Copy" Content="" HorizontalAlignment="Left" Margin="78,203,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.782,1.138" Width="185"/>
+        <Button x:Name="btnPush" Content="Push" HorizontalAlignment="Left" Height="26" Margin="716,96,0,0" VerticalAlignment="Top" Width="103" Click="btnPush_Click"/>
+        <Label x:Name="lblCity_Copy1" Content="" HorizontalAlignment="Left" Margin="685,225,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.782,1.138" Width="185"/>
+        <Label x:Name="lblState_Copy1" Content="" HorizontalAlignment="Left" Margin="685,273,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.782,1.138" Width="185"/>
+        <Button x:Name="btnGetInfo2" Content="Get Info" HorizontalAlignment="Left" Height="33" Margin="716,166,0,0" VerticalAlignment="Top" Width="103" Click="btnGetInfo2_Click"/>
+        <Label x:Name="lblCity2" Content="" HorizontalAlignment="Left" Margin="685,225,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.782,1.138" Width="185"/>
+        <Label x:Name="lblState2" Content="" HorizontalAlignment="Left" Margin="685,273,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.782,1.138" Width="185"/>
+        <Label x:Name="label" Content="Range:&#xD;&#xA;" HorizontalAlignment="Left" Margin="920,48,0,0" VerticalAlignment="Top" Height="26"/>
+        <TextBox x:Name="txtRange" HorizontalAlignment="Left" Height="26" Margin="978,48,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="77"/>
+        <Button x:Name="btnInRange" Content="Get In Range " HorizontalAlignment="Left" Height="29" Margin="969,96,0,0" VerticalAlignment="Top" Width="86" Click="btnInRange_Click"/>
+        <ListBox x:Name="lstZips2" HorizontalAlignment="Left" Height="195" Margin="878,178,0,0" VerticalAlignment="Top" Width="177">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding ZipCode}"/>
+                        <TextBlock Text=" - "/>
+                        <TextBlock Text="{Binding City}"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
     </Grid>
 </Window>

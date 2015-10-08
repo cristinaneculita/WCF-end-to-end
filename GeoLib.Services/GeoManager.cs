@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.ServiceModel;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -12,6 +13,7 @@ using GeoLib.Core;
 
 namespace GeoLib.Services
 {
+    [ServiceBehavior(InstanceContextMode = InstanceContextMode.PerCall)]
     public class GeoManager :IGeoService
 
     {
@@ -36,6 +38,8 @@ namespace GeoLib.Services
         private IZipCodeRepository _zipCodeRespository = null;
         private IStateRepository _stateRepository = null;
 
+        private int _Counter = 0;
+
         public ZipCodeData GetZipInfo(string zip)
         {
             //throw new DivideByZeroException("you cannot try this");
@@ -54,6 +58,8 @@ namespace GeoLib.Services
                     State = zipCodeEntity.State.Abbreviation
                 };
             }
+            _Counter ++;
+            Console.WriteLine(_Counter);
             return zipCodeData;
         }
 

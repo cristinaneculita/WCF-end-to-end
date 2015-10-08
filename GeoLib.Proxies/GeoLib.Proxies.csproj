@@ -45,6 +45,7 @@
     <Compile Include="GeoClient.cs" />
     <Compile Include="IMessageServices.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StatefulGeoClient.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GeoLib.Contracts\GeoLib.Contracts.csproj">

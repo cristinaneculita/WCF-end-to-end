@@ -21,14 +21,16 @@ namespace GeoLib.ConsoleHost
             //Binding binding = new NetTcpBinding();
             //Type contract = typeof (IGeoService);
             //hostGeoManager.AddServiceEndpoint(contract, binding, address);
-
+            ServiceHost hostStatefulGeoManager = new ServiceHost(typeof (StatefulGeoManager));
 
             hostGeoManager.Open();
+            hostStatefulGeoManager.Open();
             
             Console.WriteLine("Service started");
             Console.ReadKey();
 
             hostGeoManager.Close();
+            hostStatefulGeoManager.Close();
         }
     }
 }
