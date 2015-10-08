@@ -42,21 +42,13 @@ namespace GeoLib.Client
         {
             if (txtZipCode.Text != "")
             {
-                GeoClient proxy = new GeoClient("tcpEp");
-
-                ZipCodeData data = proxy.GetZipInfo(txtZipCode.Text);
-
+                ServiceReference1.GeoServiceClient proxy = new ServiceReference1.GeoServiceClient();
+                var data = proxy.GetZipInfo(txtZipCode.Text);
                 if (data != null)
                 {
                     lblCity.Content = data.City;
                     lblState.Content = data.State;
                 }
-                else
-                {
-                    lblCity.Content = "N/A";
-                    lblState.Content = "N/A";
-                }
-
                 proxy.Close();
             }
         }
