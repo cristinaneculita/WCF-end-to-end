@@ -9,9 +9,13 @@ using GeoLib.Data;
 
 namespace GeoLib.Services
 {
-    [ServiceBehavior(InstanceContextMode = InstanceContextMode.PerSession)]
+    [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single)]
     public class StatefulGeoManager : IStatefulGeoService
     {
+        public StatefulGeoManager()
+        {
+            Console.WriteLine("StatefulGeoManager");
+        }
         private ZipCode _ZipCodeEntity;
         public ZipCodeData GetZipInfo()
         {
