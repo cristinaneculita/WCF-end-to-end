@@ -34,8 +34,7 @@ namespace GeoLib.Data
             {
                 return entityContext.ZipCodeSet
                     .Include(e => e.State)
-                    .Where(e => e.Zip == zip)
-                    .FirstOrDefault();
+                    .FirstOrDefault(e => e.Zip == zip);
             }
         }
 

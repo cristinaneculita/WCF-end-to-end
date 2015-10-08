@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using GeoLib.Contracts;
 using GeoLib.Data;
@@ -37,6 +38,7 @@ namespace GeoLib.Services
 
         public ZipCodeData GetZipInfo(string zip)
         {
+            //throw new DivideByZeroException("you cannot try this");
             ZipCodeData zipCodeData = null;
 
             IZipCodeRepository zipCodeRepository = _zipCodeRespository ?? new ZipCodeRepository();
