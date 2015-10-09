@@ -51,5 +51,7 @@
             </ListBox.ItemTemplate>
         </ListBox>
         <Button x:Name="btnOneWay" Content="One Way" HorizontalAlignment="Left" Height="32" Margin="59,395,0,0" VerticalAlignment="Top" Width="106" Click="btnOneWay_Click"/>
+        <Button x:Name="btnUpdateBatch" Content="Update batch" HorizontalAlignment="Left" Margin="716,321,0,0" VerticalAlignment="Top" Width="104" Height="31" Click="btnUpdateBatch_Click"/>
+        <Button x:Name="btnPutBack" Content="Put back" HorizontalAlignment="Left" Height="31" Margin="716,373,0,0" VerticalAlignment="Top" Width="104" Click="btnPutBack_Click"/>
     </Grid>
 </Window>

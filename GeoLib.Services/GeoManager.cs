@@ -15,7 +15,7 @@ using GeoLib.Core;
 
 namespace GeoLib.Services
 {
-    //[ServiceBehavior(ConcurrencyMode = ConcurrencyMode.Reentrant)]
+    [ServiceBehavior(ConcurrencyMode =ConcurrencyMode.Reentrant, ReleaseServiceInstanceOnTransactionComplete = false)]
     public class GeoManager : IGeoService
 
     {
@@ -148,9 +148,9 @@ namespace GeoLib.Services
             return zipCodeData;
         }
 
-      
 
-     
+
+
         public void UpdateZipCity(string zip, string city)
         {
             IZipCodeRepository zipCodeRepository = _zipCodeRespository ?? new ZipCodeRepository();
@@ -162,14 +162,30 @@ namespace GeoLib.Services
                 zipCodeRepository.Update(zipEntity);
             }
         }
-       
+        [OperationBehavior(TransactionScopeRequired = true)]
         public void UpdateZipCity(IEnumerable<ZipCityData> zipCityData)
         {
             IZipCodeRepository zipCodeRepository = _zipCodeRespository ?? new ZipCodeRepository();
 
-            var cityBatch = zipCityData.ToDictionary(zipCityItem => zipCityItem.ZipCode, zipCityItem => zipCityItem.City);
+            //var cityBatch = zipCityData.ToDictionary(zipCityItem => zipCityItem.ZipCode, zipCityItem => zipCityItem.City);
 
-            zipCodeRepository.UpdateCityBatch(cityBatch);
+            //zipCodeRepository.UpdateCityBatch(cityBatch);
+
+
+            foreach (var zipCityItem in zipCityData)
+            {
+                ZipCode zipCodeEntity = zipCodeRepository.GetByZip(zipCityItem.ZipCode);
+                zipCodeEntity.City = zipCityItem.City;
+                ZipCode updatedItem = zipCodeRepository.Update(zipCodeEntity);
+
+                IUpdateZipCallback callback = OperationContext.Current.GetCallbackChannel<IUpdateZipCallback>();
+
+                if (callback != null)
+                {
+                    callback.ZipUpdated(zipCityItem);
+                }
+
+            }
         }
 
         public void OneWayExample()
