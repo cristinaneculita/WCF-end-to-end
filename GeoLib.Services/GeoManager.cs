@@ -14,8 +14,8 @@ using GeoLib.Core;
 
 namespace GeoLib.Services
 {
-   [ServiceBehavior(IncludeExceptionDetailInFaults = true)]
-    public class GeoManager :IGeoService
+    [ServiceBehavior(IncludeExceptionDetailInFaults = true)]
+    public class GeoManager : IGeoService
 
     {
         public GeoManager()
@@ -85,7 +85,7 @@ namespace GeoLib.Services
 
             IEnumerable<State> states = stateRepository.Get(primaryOnly);
 
-            if (states !=null)
+            if (states != null)
             {
                 foreach (var state in states)
                 {
@@ -109,7 +109,7 @@ namespace GeoLib.Services
             {
                 foreach (var zipCode in zips)
                 {
-                    zipCodeData.Add( new ZipCodeData()
+                    zipCodeData.Add(new ZipCodeData()
                     {
                         ZipCode = zipCode.Zip,
                         City = zipCode.City,
@@ -145,6 +145,28 @@ namespace GeoLib.Services
                 }
             }
             return zipCodeData;
+        }
+
+        [OperationBehavior(TransactionScopeRequired = true)]
+        public void UpdateZipCity(string zip, string city)
+        {
+            IZipCodeRepository zipCodeRepository = _zipCodeRespository ?? new ZipCodeRepository();
+
+            ZipCode zipEntity = zipCodeRepository.GetByZip(zip);
+            if (zipEntity != null)
+            {
+                zipEntity.City = city;
+                zipCodeRepository.Update(zipEntity);
+            }
+        }
+        [OperationBehavior(TransactionScopeRequired = true)]
+        public void UpdateZipCity(IEnumerable<ZipCityData> zipCityData)
+        {
+            IZipCodeRepository zipCodeRepository = _zipCodeRespository ?? new ZipCodeRepository();
+
+            var cityBatch = zipCityData.ToDictionary(zipCityItem => zipCityItem.ZipCode, zipCityItem => zipCityItem.City);
+
+            zipCodeRepository.UpdateCityBatch(cityBatch);
         }
     }
 }
