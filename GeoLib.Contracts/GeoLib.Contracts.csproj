@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="IGeoService.cs" />
     <Compile Include="IStatefulGeoService.cs" />
+    <Compile Include="NotFoundData.cs" />
     <Compile Include="ZipCodeData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.ServiceModel;
 using System.Text;
@@ -13,7 +14,7 @@ using GeoLib.Core;
 
 namespace GeoLib.Services
 {
-    [ServiceBehavior(InstanceContextMode = InstanceContextMode.PerCall)]
+   [ServiceBehavior(IncludeExceptionDetailInFaults = true)]
     public class GeoManager :IGeoService
 
     {
@@ -38,7 +39,6 @@ namespace GeoLib.Services
         private IZipCodeRepository _zipCodeRespository = null;
         private IStateRepository _stateRepository = null;
 
-        private int _Counter = 0;
 
         public ZipCodeData GetZipInfo(string zip)
         {
@@ -58,8 +58,22 @@ namespace GeoLib.Services
                     State = zipCodeEntity.State.Abbreviation
                 };
             }
-            _Counter ++;
-            Console.WriteLine(_Counter);
+            else
+            {
+                //throw new ApplicationException($"Zip code {zip} not found.");
+                //throw new FaultException($"Zip code {zip} not found.");
+                //ApplicationException ex = new ApplicationException($"Zip code {zip} not found.");
+                //throw new FaultException<ApplicationException>(ex, "Just another message");
+
+                NotFoundData data = new NotFoundData()
+                {
+                    Message = string.Format($"Zip code {zip} not found."),
+                    When = DateTime.Now.ToString(CultureInfo.InvariantCulture),
+                    User = "miguel"
+                };
+                throw new FaultException<NotFoundData>(data, "No reason");
+            }
+
             return zipCodeData;
         }
 

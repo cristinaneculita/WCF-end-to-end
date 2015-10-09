@@ -30,8 +30,6 @@ namespace GeoLib.Services
                     State = _ZipCodeEntity.State.Abbreviation
                 };
             }
-            else
-                throw new ApplicationException("uh oh!");
            
             return zipCodeData;
         }

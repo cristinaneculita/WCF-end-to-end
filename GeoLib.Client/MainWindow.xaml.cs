@@ -44,22 +44,55 @@ namespace GeoLib.Client
         {
             if (txtZipCode.Text != "")
             {
-                //GeoClient proxy = new GeoClient("tcpEp");
+                GeoClient proxy = new GeoClient("tcpEp");
 
-                ZipCodeData data = _Proxy.GetZipInfo(txtZipCode.Text);
-
-                if (data != null)
+                try
                 {
-                    lblCity.Content = data.City;
-                    lblState.Content = data.State;
-                }
-                else
-                {
-                    lblCity.Content = "N/A";
-                    lblState.Content = "N/A";
-                }
+                    ZipCodeData data = proxy.GetZipInfo(txtZipCode.Text);
 
-               // proxy.Close();
+                    if (data != null)
+                    {
+                        lblCity.Content = data.City;
+                        lblState.Content = data.State;
+                    }
+                    else
+                    {
+                        lblCity.Content = "N/A";
+                        lblState.Content = "N/A";
+                    }
+                    proxy.Close();
+                }
+                catch (FaultException<ExceptionDetail> ex)
+                {
+                    MessageBox.Show("Exception thrown by service.\n\rException type: " +
+                                    "FaultException<ExceptionDetail>" + "\n\r" +
+                                    "Message: " + ex.Detail.Message + "\n\r" + "Proxy state: " + proxy.State);
+                }
+                catch (FaultException<ApplicationException> ex)
+                {
+                    MessageBox.Show("Exception thrown by service.\n\rException type: " +
+                                    "FaultException<ApplicationException>" + "\n\r" +
+                                    "Reason: " + ex.Message + "\n\r" +
+                                    "Message: " + ex.Detail.Message + "\n\r" + "Proxy state: " + proxy.State);
+                }
+                catch (FaultException<NotFoundData> ex)
+                {
+                    MessageBox.Show("Exception thrown by service.\n\rException type: " +
+                                    "FaultException<NotFoundData>" + "\n\r" +
+                                    "Reason: " + ex.Message + "\n\r" +
+                                    "Message: " + ex.Detail.Message + "\n\r" + "Proxy state: " + proxy.State);
+                }
+                catch (FaultException ex)
+                {
+                    MessageBox.Show("Faultxception thrown by service.\n\rException type: " +
+                                  "FaultException" + "\n\r" +
+                                  "Message: " + ex.Message + "\n\r" + "Proxy state: " + proxy.State);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Exception thrown by service.\n\rException type: " + ex.GetType().Name + "\n\r" +
+                                    "Message: " + ex.Message + "\n\r" + "Proxy state: " + proxy.State);
+                }
             }
         }
 
@@ -75,7 +108,7 @@ namespace GeoLib.Client
                     lstZips.ItemsSource = data;
                 }
 
-              ////  proxy.Close();
+                ////  proxy.Close();
 
             }
 
@@ -102,23 +135,23 @@ namespace GeoLib.Client
         }
         private void btnGetInfo2_Click(object sender, RoutedEventArgs e)
         {
-           
-                //GeoClient proxy = new GeoClient("tcpEp");
 
-                ZipCodeData data = _Proxy2.GetZipInfo();
+            //GeoClient proxy = new GeoClient("tcpEp");
 
-                if (data != null)
-                {
-                    lblCity2.Content = data.City;
-                    lblState2.Content = data.State;
-                }
-                else
-                {
-                    lblCity2.Content = "N/A";
-                    lblState.Content = "N/A";
-                }
+            ZipCodeData data = _Proxy2.GetZipInfo();
 
-                // proxy.Close();
+            if (data != null)
+            {
+                lblCity2.Content = data.City;
+                lblState2.Content = data.State;
+            }
+            else
+            {
+                lblCity2.Content = "N/A";
+                lblState.Content = "N/A";
+            }
+
+            // proxy.Close();
 
         }
 
