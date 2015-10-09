@@ -164,6 +164,19 @@ namespace GeoLib.Client
                     lstZips2.ItemsSource = data;
             }
         }
+
+        private void btnOneWay_Click(object sender, RoutedEventArgs e)
+        {
+            GeoClient proxy = new GeoClient("tcpEp");
+
+            proxy.OneWayExample();
+
+            MessageBox.Show("Oneway example. Back at client");
+
+            proxy.Close();
+
+            MessageBox.Show("Proxy close");
+        }
     }
 
 }

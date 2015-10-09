@@ -25,6 +25,9 @@ namespace GeoLib.Contracts
         [OperationContract(Name="GetZipsForRange")]
         IEnumerable<ZipCodeData> GetZips(string zip, int range);
 
+        [OperationContract(IsOneWay =true)]
+        void OneWayExample();
+
 
 
     }

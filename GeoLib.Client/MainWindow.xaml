@@ -50,5 +50,6 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
+        <Button x:Name="btnOneWay" Content="One Way" HorizontalAlignment="Left" Height="32" Margin="59,395,0,0" VerticalAlignment="Top" Width="106" Click="btnOneWay_Click"/>
     </Grid>
 </Window>

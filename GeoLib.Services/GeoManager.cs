@@ -7,6 +7,7 @@ using System.ServiceModel;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using GeoLib.Contracts;
 using GeoLib.Data;
 using GeoLib.Core;
@@ -14,7 +15,7 @@ using GeoLib.Core;
 
 namespace GeoLib.Services
 {
-    [ServiceBehavior(IncludeExceptionDetailInFaults = true)]
+    //[ServiceBehavior(ConcurrencyMode = ConcurrencyMode.Reentrant)]
     public class GeoManager : IGeoService
 
     {
@@ -147,7 +148,9 @@ namespace GeoLib.Services
             return zipCodeData;
         }
 
-        [OperationBehavior(TransactionScopeRequired = true)]
+      
+
+     
         public void UpdateZipCity(string zip, string city)
         {
             IZipCodeRepository zipCodeRepository = _zipCodeRespository ?? new ZipCodeRepository();
@@ -159,7 +162,7 @@ namespace GeoLib.Services
                 zipCodeRepository.Update(zipEntity);
             }
         }
-        [OperationBehavior(TransactionScopeRequired = true)]
+       
         public void UpdateZipCity(IEnumerable<ZipCityData> zipCityData)
         {
             IZipCodeRepository zipCodeRepository = _zipCodeRespository ?? new ZipCodeRepository();
@@ -167,6 +170,11 @@ namespace GeoLib.Services
             var cityBatch = zipCityData.ToDictionary(zipCityItem => zipCityItem.ZipCode, zipCityItem => zipCityItem.City);
 
             zipCodeRepository.UpdateCityBatch(cityBatch);
+        }
+
+        public void OneWayExample()
+        {
+            MessageBox.Show("Made it to the service");
         }
     }
 }
