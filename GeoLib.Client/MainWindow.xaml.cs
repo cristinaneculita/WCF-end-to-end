@@ -29,12 +29,12 @@ namespace GeoLib.Client
     /// Interaction logic for MainWindow.xaml
     /// </summary>.
     [CallbackBehavior(UseSynchronizationContext = false)]
-    public partial class MainWindow : Window, IUpdateZipCallback
+    public partial class MainWindow : Window, GeoLib.Contracts.IUpdateZipCallback
     {
         public MainWindow()
         {
             InitializeComponent();
-            _Proxy = new GeoClient(new InstanceContext(this),"tcpEp");
+            _Proxy = new GeoClient(new InstanceContext(this), "tcpEp");
             _Proxy2 = new StatefulGeoClient();
             _SyncContext = SynchronizationContext.Current;
 
@@ -47,7 +47,7 @@ namespace GeoLib.Client
         {
             if (txtZipCode.Text != "")
             {
-                GeoClient proxy = new GeoClient(new InstanceContext(this),"tcpEp");
+                GeoClient proxy = new GeoClient(new InstanceContext(this), "tcpEp");
 
                 try
                 {
@@ -170,7 +170,7 @@ namespace GeoLib.Client
 
         private void btnOneWay_Click(object sender, RoutedEventArgs e)
         {
-            GeoClient proxy = new GeoClient(new InstanceContext(this),"tcpEp");
+            GeoClient proxy = new GeoClient(new InstanceContext(this), "tcpEp");
 
             proxy.OneWayExample();
 
@@ -192,25 +192,44 @@ namespace GeoLib.Client
             };
 
             lstZips2.Items.Clear();
-           await Task.Run(()=>
+            //await Task.Run(() =>
+            // {
+
+            //     try
+            //     {
+            //         GeoClient proxy = new GeoClient(new InstanceContext(this), "tcpEp");
+
+            //         proxy.UpdateZipCity(cityZipList);
+
+            //         proxy.Close();
+
+            //         MessageBox.Show("Updated.");
+            //     }
+            //     catch (Exception ex)
+            //     {
+            //         MessageBox.Show("Error: " + ex.Message);
+            //     }
+            // });
+
+            GeoClient proxy = new GeoClient(new InstanceContext(this), "tcpEp");
+
+            Task<int> task = proxy.UpdateZipCityAsync(cityZipList);
+
+            task.ContinueWith(result =>
             {
-
-                try
+                if (result.Exception == null)
                 {
-                    GeoClient proxy = new GeoClient(new InstanceContext(this), "tcpEp");
-
-                    proxy.UpdateZipCity(cityZipList);
-
-                    proxy.Close();
-
-                    MessageBox.Show("Updated.");
+                    MessageBox.Show(string.Format("Updated {0} items.", result.Result));
                 }
-                catch (Exception ex)
+                else
                 {
-                    MessageBox.Show("Error: " + ex.Message);
+                    MessageBox.Show("error: "+result.Exception.Message+"\n\r"+result.Exception.InnerException.Message);
+
                 }
             });
-           
+            //MessageBox.Show("Call made");
+
+
         }
 
         private async void btnPutBack_Click(object sender, RoutedEventArgs e)
@@ -224,30 +243,39 @@ namespace GeoLib.Client
             };
 
             lstZips2.Items.Clear();
-            await Task.Run(() =>
+            //await Task.Run(() =>
+            //{
+
+            //    try
+            //    {
+            //        GeoClient proxy = new GeoClient(new InstanceContext(this), "tcpEp");
+
+            //        proxy.UpdateZipCity(cityZipList);
+
+            //        proxy.Close();
+
+            //        MessageBox.Show("Updated.");
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        MessageBox.Show("Error: " + ex.Message);
+            //    }
+            //});
+            GeoClient proxy = new GeoClient(new InstanceContext(this), "tcpEp");
+
+            Task<int> task = proxy.UpdateZipCityAsync(cityZipList);
+
+            task.ContinueWith(result =>
             {
-
-                try
-                {
-                    GeoClient proxy = new GeoClient(new InstanceContext(this), "tcpEp");
-
-                    proxy.UpdateZipCity(cityZipList);
-
-                    proxy.Close();
-
-                    MessageBox.Show("Updated.");
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Error: " + ex.Message);
-                }
+                MessageBox.Show(string.Format("Updated {0} items.", result.Result));
             });
+           // MessageBox.Show("Call made");
 
         }
 
         public void ZipUpdated(ZipCityData zipCityData)
         {
-           // MessageBox.Show($"updated zipcode {zipCityData.ZipCode} with city {zipCityData.City}.");
+            // MessageBox.Show($"updated zipcode {zipCityData.ZipCode} with city {zipCityData.City}.");
             SendOrPostCallback updateUI = new SendOrPostCallback(arg =>
             {
                 lstZips2.Items.Add(zipCityData);

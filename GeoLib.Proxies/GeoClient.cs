@@ -42,9 +42,14 @@ namespace GeoLib.Proxies
             Channel.OneWayExample();
         }
 
-        public void UpdateZipCity(IEnumerable<ZipCityData> zipCityData)
+        public int UpdateZipCity(IEnumerable<ZipCityData> zipCityData)
         {
-            Channel.UpdateZipCity(zipCityData);
+            return Channel.UpdateZipCity(zipCityData);
+        }
+
+        public Task<int> UpdateZipCityAsync(IEnumerable<ZipCityData> zipCityData)
+        {
+            return Channel.UpdateZipCityAsync(zipCityData);
         }
     }
 }

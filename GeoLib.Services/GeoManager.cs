@@ -151,19 +151,20 @@ namespace GeoLib.Services
 
 
 
-        public void UpdateZipCity(string zip, string city)
-        {
-            IZipCodeRepository zipCodeRepository = _zipCodeRespository ?? new ZipCodeRepository();
+        //public void UpdateZipCity(string zip, string city)
+        //{
+        //    IZipCodeRepository zipCodeRepository = _zipCodeRespository ?? new ZipCodeRepository();
 
-            ZipCode zipEntity = zipCodeRepository.GetByZip(zip);
-            if (zipEntity != null)
-            {
-                zipEntity.City = city;
-                zipCodeRepository.Update(zipEntity);
-            }
-        }
+        //    ZipCode zipEntity = zipCodeRepository.GetByZip(zip);
+        //    if (zipEntity != null)
+        //    {
+        //        zipEntity.City = city;
+        //        zipCodeRepository.Update(zipEntity);
+        //    }
+        //}
+
         [OperationBehavior(TransactionScopeRequired = true)]
-        public void UpdateZipCity(IEnumerable<ZipCityData> zipCityData)
+        public int UpdateZipCity(IEnumerable<ZipCityData> zipCityData)
         {
             IZipCodeRepository zipCodeRepository = _zipCodeRespository ?? new ZipCodeRepository();
 
@@ -171,21 +172,28 @@ namespace GeoLib.Services
 
             //zipCodeRepository.UpdateCityBatch(cityBatch);
 
+            int cnt = 0;
 
             foreach (var zipCityItem in zipCityData)
             {
+                cnt++;
                 ZipCode zipCodeEntity = zipCodeRepository.GetByZip(zipCityItem.ZipCode);
                 zipCodeEntity.City = zipCityItem.City;
                 ZipCode updatedItem = zipCodeRepository.Update(zipCodeEntity);
+
+                if (cnt == 3)
+                    throw new FaultException("Manually caused error");
 
                 IUpdateZipCallback callback = OperationContext.Current.GetCallbackChannel<IUpdateZipCallback>();
 
                 if (callback != null)
                 {
                     callback.ZipUpdated(zipCityItem);
+                    Thread.Sleep(1000);
                 }
 
             }
+            return cnt;
         }
 
         public void OneWayExample()
