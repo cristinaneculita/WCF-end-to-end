@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GeoAdminClient.cs" />
     <Compile Include="GeoClient.cs" />
     <Compile Include="IGeoService.cs" />
     <Compile Include="IMessageServices.cs" />

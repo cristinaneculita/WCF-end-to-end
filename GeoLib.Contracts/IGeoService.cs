@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using System.ServiceModel;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GeoLib.Contracts
 {
@@ -25,19 +21,8 @@ namespace GeoLib.Contracts
         [OperationContract(Name="GetZipsForRange")]
         IEnumerable<ZipCodeData> GetZips(string zip, int range);
 
-        [OperationContract(IsOneWay =true)]
-        void OneWayExample();
-
-        [OperationContract]
-        [TransactionFlow(TransactionFlowOption.Allowed)]
-        int UpdateZipCity(IEnumerable<ZipCityData> zipCityData);
+     
 
 
-    }
-    [ServiceContract]
-    public interface IUpdateZipCallback
-    {
-        [OperationContract(IsOneWay = true)]
-        void ZipUpdated(ZipCityData zipCityData);
     }
 }

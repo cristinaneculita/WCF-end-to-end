@@ -42,8 +42,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IGeoAdminService.cs" />
     <Compile Include="IGeoService.cs" />
     <Compile Include="IStatefulGeoService.cs" />
+    <Compile Include="IUpdateZipCallback.cs" />
     <Compile Include="NotFoundData.cs" />
     <Compile Include="ZipCityData.cs" />
     <Compile Include="ZipCodeData.cs" />

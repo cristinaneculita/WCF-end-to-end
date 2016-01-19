@@ -192,41 +192,44 @@ namespace GeoLib.Client
             };
 
             lstZips2.Items.Clear();
-            //await Task.Run(() =>
-            // {
+            await Task.Run(() =>
+             {
 
-            //     try
-            //     {
-            //         GeoClient proxy = new GeoClient(new InstanceContext(this), "tcpEp");
+                 try
+                 {
+                     GeoAdminClient proxy = new GeoAdminClient("tcpAdmin");
 
-            //         proxy.UpdateZipCity(cityZipList);
+                     //proxy.ClientCredentials.Windows.ClientCredential.UserName = "WcfUser";
+                     //proxy.ClientCredentials.Windows.ClientCredential.Password = "dotNET12#";
 
-            //         proxy.Close();
+                     proxy.UpdateZipCity(cityZipList);
 
-            //         MessageBox.Show("Updated.");
-            //     }
-            //     catch (Exception ex)
-            //     {
-            //         MessageBox.Show("Error: " + ex.Message);
-            //     }
-            // });
+                     proxy.Close();
 
-            GeoClient proxy = new GeoClient(new InstanceContext(this), "tcpEp");
+                     MessageBox.Show("Updated.");
+                 }
+                 catch (Exception ex)
+                 {
+                     MessageBox.Show("Error: " + ex.Message);
+                 }
+             });
 
-            Task<int> task = proxy.UpdateZipCityAsync(cityZipList);
+            //GeoClient proxy = new GeoClient(new InstanceContext(this), "tcpEp");
 
-            task.ContinueWith(result =>
-            {
-                if (result.Exception == null)
-                {
-                    MessageBox.Show(string.Format("Updated {0} items.", result.Result));
-                }
-                else
-                {
-                    MessageBox.Show("error: "+result.Exception.Message+"\n\r"+result.Exception.InnerException.Message);
+            //Task<int> task = proxy.UpdateZipCityAsync(cityZipList);
 
-                }
-            });
+            //task.ContinueWith(result =>
+            //{
+            //    if (result.Exception == null)
+            //    {
+            //        MessageBox.Show(string.Format("Updated {0} items.", result.Result));
+            //    }
+            //    else
+            //    {
+            //        MessageBox.Show("error: "+result.Exception.Message+"\n\r"+result.Exception.InnerException.Message);
+
+            //    }
+            //});
             //MessageBox.Show("Call made");
 
 
